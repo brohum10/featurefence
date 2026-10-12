@@ -1,0 +1,30 @@
+{
+  "python": "3.14.2",
+  "sqlite": "3.50.4",
+  "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "seed": 42,
+  "synthetic": true,
+  "events": 100000,
+  "queries": 10000,
+  "features": 3,
+  "ingest_seconds": 0.4112591249868274,
+  "build_seconds_three_runs": [
+    0.662356625078246,
+    0.7008618339896202,
+    0.6700022919103503
+  ],
+  "median_build_seconds": 0.6700022919103503,
+  "feature_cells_per_second": 44775.96623507394,
+  "oracle_queries_verified": 100,
+  "oracle_seconds": 0.7553718751296401,
+  "query_plan": [
+    "SEARCH events USING INDEX point_in_time (entity=? AND feature=? AND event_time>? AND event_time<?)"
+  ],
+  "summary": {
+    "feature_cells": 30000,
+    "missing_cells": 1114,
+    "leaky_cells_in_event_time_only_join": 20291
+  },
+  "events_sha256": "a7dfe38b9b12d520d1301656b68fa767245201b9f8b799f005f0519cb79eb5dd",
+  "scope": "in-memory SQLite, warm repeated builds, safe + hindsight joins + full log hash; excludes input generation and JSON serialization"
+}

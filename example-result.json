@@ -1,0 +1,105 @@
+{
+  "version": 1,
+  "feature_ttl": {
+    "spend_7d": 30,
+    "chargebacks": null
+  },
+  "manifest": {
+    "event_count": 4,
+    "events_sha256": "04d166818897f9a0fbdf9f76853d1be2d4f7d6ecfe98084ee97fbfafb2691d5d",
+    "query_count": 3,
+    "semantics": "event_time <= at AND available_at <= at; inclusive TTL; newest event then newest known version"
+  },
+  "summary": {
+    "feature_cells": 6,
+    "missing_cells": 2,
+    "leaky_cells_in_event_time_only_join": 2
+  },
+  "rows": [
+    {
+      "query_id": "prediction-before-arrival",
+      "entity": "customer-1",
+      "at": 20,
+      "values": {
+        "spend_7d": 85.0,
+        "chargebacks": null
+      },
+      "provenance": {
+        "spend_7d": {
+          "id": "spend-correction",
+          "entity": "customer-1",
+          "feature": "spend_7d",
+          "event_time": 10,
+          "available_at": 19,
+          "value": 85.0
+        },
+        "chargebacks": null
+      }
+    },
+    {
+      "query_id": "prediction-after-arrival",
+      "entity": "customer-1",
+      "at": 30,
+      "values": {
+        "spend_7d": 900.0,
+        "chargebacks": 1.0
+      },
+      "provenance": {
+        "spend_7d": {
+          "id": "spend-backfill",
+          "entity": "customer-1",
+          "feature": "spend_7d",
+          "event_time": 18,
+          "available_at": 25,
+          "value": 900.0
+        },
+        "chargebacks": {
+          "id": "chargeback-late",
+          "entity": "customer-1",
+          "feature": "chargebacks",
+          "event_time": 17,
+          "available_at": 30,
+          "value": 1.0
+        }
+      }
+    },
+    {
+      "query_id": "expired-feature",
+      "entity": "customer-1",
+      "at": 60,
+      "values": {
+        "spend_7d": null,
+        "chargebacks": 1.0
+      },
+      "provenance": {
+        "spend_7d": null,
+        "chargebacks": {
+          "id": "chargeback-late",
+          "entity": "customer-1",
+          "feature": "chargebacks",
+          "event_time": 17,
+          "available_at": 30,
+          "value": 1.0
+        }
+      }
+    }
+  ],
+  "leakage": [
+    {
+      "query_id": "prediction-before-arrival",
+      "feature": "spend_7d",
+      "reason": "event-time-only join uses unavailable data",
+      "unsafe_event_id": "spend-backfill",
+      "safe_event_id": "spend-correction",
+      "available_after_prediction_by": 5
+    },
+    {
+      "query_id": "prediction-before-arrival",
+      "feature": "chargebacks",
+      "reason": "event-time-only join uses unavailable data",
+      "unsafe_event_id": "chargeback-late",
+      "safe_event_id": null,
+      "available_after_prediction_by": 10
+    }
+  ]
+}

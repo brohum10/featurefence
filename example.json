@@ -1,0 +1,14 @@
+{
+  "feature_ttl": {"spend_7d": 30, "chargebacks": null},
+  "events": [
+    {"id":"spend-original","entity":"customer-1","feature":"spend_7d","event_time":10,"available_at":12,"value":80},
+    {"id":"spend-backfill","entity":"customer-1","feature":"spend_7d","event_time":18,"available_at":25,"value":900},
+    {"id":"spend-correction","entity":"customer-1","feature":"spend_7d","event_time":10,"available_at":19,"value":85},
+    {"id":"chargeback-late","entity":"customer-1","feature":"chargebacks","event_time":17,"available_at":30,"value":1}
+  ],
+  "queries": [
+    {"id":"prediction-before-arrival","entity":"customer-1","at":20},
+    {"id":"prediction-after-arrival","entity":"customer-1","at":30},
+    {"id":"expired-feature","entity":"customer-1","at":60}
+  ]
+}
